@@ -1,0 +1,9 @@
+How to run attendance live server?
+1. Run CMD as admin.
+2. Type cd/[file directory]/attendance_app
+3. type py -m venv venv after step 2.
+4. type venv\Scripts\activate.
+5. type py seed.py. Wait until cmd successfully executes.
+6. type py run.py. Must have an internet connection in order to proceed!
+7. Copy http://127.0.0.1:5000 then paste it in on your browser.
+That's it! -Nelz

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Students</h1>
+    <div class="sub">Computer Science Department · {{ students|length }} shown</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="toolbar">
+    <form method="GET" style="flex:1; display:flex;">
+      <input class="search-input" type="text" name="q" placeholder="Search by name..." value="{{ q }}">
+    </form>
+  </div>
+  <table>
+    <thead><tr><th>Student</th><th>Student No.</th><th>Section</th></tr></thead>
+    <tbody>
+      {% for s in students %}
+      <tr>
+        <td class="stu-name">{{ s.full_name }}</td>
+        <td class="stu-no">{{ s.student_no }}</td>
+        <td>{{ s.section.name if s.section else '—' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="3" style="color:var(--ink-soft);">No students found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

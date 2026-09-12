@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}My Attendance{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div><h1>My Attendance</h1></div>
+  <div class="who">
+    <div class="prof">{{ current_user.full_name }}</div>
+    <div>{{ current_user.section.name if current_user.section else '—' }} · {{ current_user.student_no }}</div>
+  </div>
+</div>
+
+<div class="today-card">
+  <div>
+    <div class="lbl">Today's status</div>
+    <div class="status-big">{{ today_status }}</div>
+  </div>
+  <div class="ring" style="--pct: {{ rate }};">
+    <div class="ring-inner"><div class="pct">{{ rate }}%</div><div class="txt">THIS TERM</div></div>
+  </div>
+</div>
+
+<div class="panel">
+  {% for r in records %}
+  <div class="hist-row">
+    <div class="hist-dot bg-{{ r.status }}"></div>
+    <div class="hist-date">{{ r.date.strftime('%b %d, %Y') }}</div>
+    <div class="hist-class">{{ r.section.subject if r.section else '' }}</div>
+    <span class="pill {{ r.status }}">{{ r.status|capitalize }}</span>
+  </div>
+  {% else %}
+  <div class="hist-row" style="color:var(--ink-soft);">No attendance records yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}

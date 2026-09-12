@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div><h1>My Profile</h1></div>
+</div>
+
+<div class="profile-header">
+  <div class="avatar-circle">{{ current_user.full_name[0]|upper }}</div>
+  <div>
+    <div class="profile-name">{{ current_user.full_name }}</div>
+    <div class="profile-no">{{ current_user.student_no or current_user.email }}</div>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button type="button" class="tab-btn active" id="tab-info" onclick="showProfileTab('info')">Profile Information</button>
+  <button type="button" class="tab-btn" id="tab-school" onclick="showProfileTab('school')">School Information</button>
+</div>
+
+<div class="panel" id="panel-info">
+  <div class="profile-row"><span class="profile-label">Status</span><span class="profile-value">{{ current_user.status or '—' }}</span></div>
+  <div class="profile-row"><span class="profile-label">Gender</span><span class="profile-value">{{ current_user.gender or '—' }}</span></div>
+  <div class="profile-row"><span class="profile-label">Email</span><span class="profile-value">{{ current_user.email }}</span></div>
+  <div class="profile-row"><span class="profile-label">Mobile Number</span><span class="profile-value">{{ current_user.phone_number or '—' }}</span></div>
+</div>
+
+<div class="panel" id="panel-school" style="display:none;">
+  <div class="profile-row"><span class="profile-label">Year Level</span><span class="profile-value">{{ current_user.year_level or '—' }}</span></div>
+  <div class="profile-row"><span class="profile-label">Course</span><span class="profile-value">{{ current_user.course or '—' }}</span></div>
+  <div class="profile-row"><span class="profile-label">Section</span><span class="profile-value">{{ current_user.section.name if current_user.section else '—' }}</span></div>
+</div>
+
+<script>
+function showProfileTab(name) {
+  document.getElementById('panel-info').style.display = (name === 'info') ? 'block' : 'none';
+  document.getElementById('panel-school').style.display = (name === 'school') ? 'block' : 'none';
+  document.getElementById('tab-info').classList.toggle('active', name === 'info');
+  document.getElementById('tab-school').classList.toggle('active', name === 'school');
+}
+</script>
+{% endblock %}

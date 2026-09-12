@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Edit Faculty{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Edit Faculty</h1>
+    <div class="sub">{{ acct.full_name }}</div>
+  </div>
+</div>
+
+<div class="panel settings-panel" style="max-width:480px;">
+  {% if error %}<div class="flash-error">{{ error }}</div>{% endif %}
+  <form method="POST">
+    <div class="field">
+      <label for="full_name">Full Name</label>
+      <input type="text" id="full_name" name="full_name"
+        value="{{ (form.get('full_name') if form else acct.full_name) }}" required>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email"
+        value="{{ (form.get('email') if form else acct.email) }}" required>
+    </div>
+    <div class="field">
+      <label for="role">Role</label>
+      {% set current_role = (form.get('role') if form else acct.role) %}
+      <select id="role" name="role" style="width:100%; padding:11px 13px;">
+        <option value="faculty" {{ 'selected' if current_role == 'faculty' }}>Faculty</option>
+        <option value="admin" {{ 'selected' if current_role == 'admin' }}>Admin</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="password">New Password</label>
+      <input type="text" id="password" name="password" placeholder="Leave blank to keep current password">
+    </div>
+    <button class="add-btn" type="submit">Save Changes</button>
+    <a href="{{ url_for('main.faculty') }}" style="margin-left:14px; font-size:13px; color:var(--ink-soft);">Cancel</a>
+  </form>
+</div>
+{% endblock %}

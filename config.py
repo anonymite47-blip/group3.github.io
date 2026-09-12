@@ -14,7 +14,3 @@ class Config:
         'DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'attendance.db')
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    # Google Sign-In — leave blank to disable the "Sign in with Google" button
-    GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '')
-    GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '')

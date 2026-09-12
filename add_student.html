@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Add Student{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Add Student</h1>
+    <div class="sub">Create a new student account</div>
+  </div>
+</div>
+
+<div class="panel settings-panel" style="max-width:480px;">
+  {% if error %}
+  <div class="flash-error">{{ error }}</div>
+  {% endif %}
+  <form method="POST">
+    <div class="field">
+      <label for="full_name">Full Name</label>
+      <input type="text" id="full_name" name="full_name" value="{{ form.get('full_name', '') }}" required>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" value="{{ form.get('email', '') }}" placeholder="student@sci.edu.ph" required>
+    </div>
+    <div class="field">
+      <label for="student_no">Student No.</label>
+      <input type="text" id="student_no" name="student_no" value="{{ form.get('student_no', '') }}" placeholder="2023-00000" required>
+    </div>
+    <div class="field">
+      <label for="status">Status</label>
+      <select id="status" name="status" style="width:100%; padding:11px 13px;">
+        <option value="New" {{ 'selected' if form.get('status', 'New') == 'New' }}>New</option>
+        <option value="Continuing" {{ 'selected' if form.get('status') == 'Continuing' }}>Continuing</option>
+        <option value="Irregular" {{ 'selected' if form.get('status') == 'Irregular' }}>Irregular</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" style="width:100%; padding:11px 13px;">
+        <option value="">— Select —</option>
+        <option value="Male" {{ 'selected' if form.get('gender') == 'Male' }}>Male</option>
+        <option value="Female" {{ 'selected' if form.get('gender') == 'Female' }}>Female</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="year_level">Year Level</label>
+      <select id="year_level" name="year_level" style="width:100%; padding:11px 13px;">
+        <option value="">— Select —</option>
+        <option value="1st Year" {{ 'selected' if form.get('year_level') == '1st Year' }}>1st Year</option>
+        <option value="2nd Year" {{ 'selected' if form.get('year_level') == '2nd Year' }}>2nd Year</option>
+        <option value="3rd Year" {{ 'selected' if form.get('year_level') == '3rd Year' }}>3rd Year</option>
+        <option value="4th Year" {{ 'selected' if form.get('year_level') == '4th Year' }}>4th Year</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="course">Course</label>
+      <input type="text" id="course" name="course"
+        value="{{ form.get('course', 'Bachelor of Science in Computer Science') }}">
+    </div>
+    <div class="field">
+      <label for="section_id">Section</label>
+      <select id="section_id" name="section_id" style="width:100%; padding:11px 13px;">
+        <option value="">— No section —</option>
+        {% for s in sections %}
+        <option value="{{ s.id }}" {{ 'selected' if form.get('section_id', '')|string == s.id|string }}>{{ s.name }} — {{ s.subject }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="password">Initial Password</label>
+      <input type="text" id="password" name="password" value="{{ form.get('password', '') }}" placeholder="Temporary password" required>
+    </div>
+    <button class="add-btn" type="submit">Create Student</button>
+    <a href="{{ url_for('main.students') }}" style="margin-left:14px; font-size:13px; color:var(--ink-soft);">Cancel</a>
+  </form>
+</div>
+{% endblock %}

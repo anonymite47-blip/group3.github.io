@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Faculty{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Faculty</h1>
+    <div class="sub">Computer Science Department · {{ faculty_list|length }} account(s)</div>
+  </div>
+  <div class="who"><a href="{{ url_for('main.add_faculty') }}" class="add-btn" style="text-decoration:none; display:inline-block;">+ Add Faculty</a></div>
+</div>
+
+<div class="panel">
+  <table>
+    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for f in faculty_list %}
+      <tr>
+        <td class="stu-name">{{ f.full_name }}{{ ' (you)' if f.id == current_user.id }}</td>
+        <td>{{ f.email }}</td>
+        <td>{{ f.role|capitalize }}</td>
+        <td>
+          <div class="status-group">
+            <a class="status-btn" href="{{ url_for('main.edit_faculty', user_id=f.id) }}">Edit</a>
+            {% if f.id != current_user.id %}
+            <form method="POST" action="{{ url_for('main.delete_faculty', user_id=f.id) }}"
+                  onsubmit="return confirm('Delete {{ f.full_name }}? Subjects they advise will become unclaimed.');">
+              <button type="submit" class="status-btn sel-absent">Delete</button>
+            </form>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4" style="color:var(--ink-soft);">No faculty accounts yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

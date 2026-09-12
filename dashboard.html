@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Attendance</h1>
+    <div class="sub">{{ section.subject if section else 'No section assigned yet' }}</div>
+  </div>
+  <div class="who">
+    <div class="prof">{{ current_user.full_name }}</div>
+    <div>CS Dept. Adviser</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="controls">
+    <form method="GET">
+      <select name="section_id" onchange="this.form.submit()">
+        {% for s in sections %}
+          <option value="{{ s.id }}" {{ 'selected' if section and s.id == section.id }}>{{ s.name }} — {{ s.subject }}</option>
+        {% endfor %}
+      </select>
+    </form>
+    <div class="live"><span class="dot"></span> Live — status updates in real time</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat present"><div class="num">{{ counts.present }}</div><div class="label">Present</div></div>
+    <div class="stat late"><div class="num">{{ counts.late }}</div><div class="label">Late</div></div>
+    <div class="stat absent"><div class="num">{{ counts.absent }}</div><div class="label">Absent</div></div>
+    <div class="stat"><div class="num">{{ total }}</div><div class="label">Total enrolled</div></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Student</th><th>Student No.</th><th>Status</th><th>Time marked</th></tr>
+    </thead>
+    <tbody>
+      {% for row in roster %}
+      <tr>
+        <td class="stu-name">{{ row.student.full_name }}</td>
+        <td class="stu-no">{{ row.student.student_no }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('main.mark_attendance') }}" class="status-group">
+            <input type="hidden" name="student_id" value="{{ row.student.id }}">
+            <input type="hidden" name="section_id" value="{{ section.id }}">
+            {% for st in ['present', 'late', 'absent', 'excused'] %}
+              <button type="submit" name="status" value="{{ st }}"
+                class="status-btn {{ 'sel-' + st if row.status == st }}">{{ st|capitalize }}</button>
+            {% endfor %}
+          </form>
+        </td>
+        <td class="time-col">{{ row.time.strftime('%I:%M %p') if row.time else '—' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4" style="color:var(--ink-soft);">No students in this section yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

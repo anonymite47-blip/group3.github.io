@@ -8,26 +8,12 @@ and can be pointed at MySQL for deployment (e.g. PythonAnywhere).
 ## Setup
 
 ```bash
-Run CMD as admin.
-Type cd/[file directory]/attendance_app
-py -m venv venv
-type venv\Scripts\activate        # Windows: venv\Scripts\activate
+python3 -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-py seed.py                  # creates the database + sample data
-py run.py                   # starts the dev server at http://127.0.0.1:5000
-```
-
-## Once installed, use these codes:
-
-```bash
-1. Run CMD as admin.
-2. Type cd/[file directory]/attendance_app
-3. type py -m venv venv after step 2.
-4. type venv\Scripts\activate.
-5. type py seed.py. Wait until CMD successfully executes.
-6. type py run.py. Must have an internet connection in order to proceed!
-7. Copy http://127.0.0.1:5000 then paste it in on your browser.
+python seed.py                  # creates the database + sample data
+python run.py                   # starts the dev server at http://127.0.0.1:5000
 ```
 
 ## Sample logins (created by seed.py)

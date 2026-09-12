@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Edit Student{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Edit Student</h1>
+    <div class="sub">{{ student.full_name }} · {{ student.student_no }}</div>
+  </div>
+</div>
+
+<div class="panel settings-panel" style="max-width:480px;">
+  {% if error %}
+  <div class="flash-error">{{ error }}</div>
+  {% endif %}
+  <form method="POST">
+    <div class="field">
+      <label for="full_name">Full Name</label>
+      <input type="text" id="full_name" name="full_name"
+        value="{{ (form.get('full_name') if form else student.full_name) }}" required>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email"
+        value="{{ (form.get('email') if form else student.email) }}" required>
+    </div>
+    <div class="field">
+      <label for="student_no">Student No.</label>
+      <input type="text" id="student_no" name="student_no"
+        value="{{ (form.get('student_no') if form else student.student_no) }}" required>
+    </div>
+    <div class="field">
+      <label for="status">Status</label>
+      {% set cur_status = (form.get('status') if form else student.status) or 'New' %}
+      <select id="status" name="status" style="width:100%; padding:11px 13px;">
+        <option value="New" {{ 'selected' if cur_status == 'New' }}>New</option>
+        <option value="Continuing" {{ 'selected' if cur_status == 'Continuing' }}>Continuing</option>
+        <option value="Irregular" {{ 'selected' if cur_status == 'Irregular' }}>Irregular</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="gender">Gender</label>
+      {% set cur_gender = (form.get('gender') if form else student.gender) or '' %}
+      <select id="gender" name="gender" style="width:100%; padding:11px 13px;">
+        <option value="">— Select —</option>
+        <option value="Male" {{ 'selected' if cur_gender == 'Male' }}>Male</option>
+        <option value="Female" {{ 'selected' if cur_gender == 'Female' }}>Female</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="year_level">Year Level</label>
+      {% set cur_year = (form.get('year_level') if form else student.year_level) or '' %}
+      <select id="year_level" name="year_level" style="width:100%; padding:11px 13px;">
+        <option value="">— Select —</option>
+        <option value="1st Year" {{ 'selected' if cur_year == '1st Year' }}>1st Year</option>
+        <option value="2nd Year" {{ 'selected' if cur_year == '2nd Year' }}>2nd Year</option>
+        <option value="3rd Year" {{ 'selected' if cur_year == '3rd Year' }}>3rd Year</option>
+        <option value="4th Year" {{ 'selected' if cur_year == '4th Year' }}>4th Year</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="course">Course</label>
+      <input type="text" id="course" name="course"
+        value="{{ (form.get('course') if form else student.course) or 'Bachelor of Science in Computer Science' }}">
+    </div>
+    <div class="field">
+      <label for="section_id">Section</label>
+      <select id="section_id" name="section_id" style="width:100%; padding:11px 13px;">
+        <option value="">— No section —</option>
+        {% for s in sections %}
+        {% set current = (form.get('section_id') if form else student.section_id)|string %}
+        <option value="{{ s.id }}" {{ 'selected' if current == s.id|string }}>{{ s.name }} — {{ s.subject }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="password">New Password</label>
+      <input type="text" id="password" name="password" placeholder="Leave blank to keep current password">
+    </div>
+    <button class="add-btn" type="submit">Save Changes</button>
+    <a href="{{ url_for('main.students') }}" style="margin-left:14px; font-size:13px; color:var(--ink-soft);">Cancel</a>
+  </form>
+</div>
+{% endblock %}

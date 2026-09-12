@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify Your Number — Santa Cruz Institute Attendance System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-body">
+<div class="login-frame">
+  <div class="login-side">
+    <div class="seal-lg">SCI</div>
+    <h2>Verify Your Mobile Number</h2>
+    <p>One quick step to confirm it's really you before your account is activated.</p>
+    <div class="tag">Santa Cruz Institute (Marinduque), Inc.</div>
+  </div>
+  <div class="login-main">
+    <div class="login-form">
+      <h3>Enter verification code</h3>
+      <p class="lead">We sent a 6-digit code to {{ student.phone_number }}.</p>
+
+      {% if dev_otp %}
+        <div class="flash-error" style="background:var(--late-bg); color:var(--late);">
+          DEV MODE — no SMS gateway configured. Your code is: <strong>{{ dev_otp }}</strong>
+        </div>
+      {% endif %}
+
+      {% if error %}
+        <div class="flash-error">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST">
+        <div class="field">
+          <label for="code">Verification Code</label>
+          <input type="text" id="code" name="code" maxlength="6" placeholder="123456" required autofocus>
+        </div>
+        <button class="login-btn" type="submit">Verify &amp; Continue</button>
+      </form>
+
+      <form method="POST" style="margin-top:12px;">
+        <input type="hidden" name="resend" value="1">
+        <button type="submit" class="status-btn" style="width:100%; padding:10px 0; border-radius:6px;">Resend Code</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

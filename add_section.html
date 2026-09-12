@@ -19,6 +19,7 @@
       <label for="subject">Subject</label>
       <input type="text" id="subject" name="subject" value="{{ form.get('subject', '') }}" placeholder="Data Structures" required>
     </div>
+    <p style="font-size:11.5px; color:var(--ink-soft); margin:-8px 0 16px;">The adviser isn't set here — advisers claim their own subjects from the Sections list after creating it.</p>
     <div class="field">
       <label for="school_year">School Year</label>
       <input type="text" id="school_year" name="school_year" value="{{ form.get('school_year', '') }}" placeholder="2026-2027">
@@ -30,15 +31,6 @@
         <option value="1st Semester" {{ 'selected' if form.get('semester') == '1st Semester' }}>1st Semester</option>
         <option value="2nd Semester" {{ 'selected' if form.get('semester') == '2nd Semester' }}>2nd Semester</option>
         <option value="Summer" {{ 'selected' if form.get('semester') == 'Summer' }}>Summer</option>
-      </select>
-    </div>
-    <div class="field">
-      <label for="adviser_id">Adviser</label>
-      <select id="adviser_id" name="adviser_id" style="width:100%; padding:11px 13px;">
-        <option value="">— Unassigned —</option>
-        {% for a in advisers %}
-        <option value="{{ a.id }}" {{ 'selected' if form.get('adviser_id', '')|string == a.id|string }}>{{ a.full_name }}</option>
-        {% endfor %}
       </select>
     </div>
     <button class="add-btn" type="submit">Create Section</button>

@@ -23,8 +23,7 @@
         <a href="{{ url_for('main.dashboard') }}" class="{{ 'active' if request.endpoint == 'main.dashboard' }}">▦ Dashboard</a>
         <a href="{{ url_for('main.dashboard') }}" class="{{ 'active' if request.endpoint == 'main.mark_attendance' }}">▤ Attendance</a>
         <a href="{{ url_for('main.reports') }}" class="{{ 'active' if request.endpoint == 'main.reports' }}">▥ Reports</a>
-        <a href="{{ url_for('main.sections') }}" class="{{ 'active' if request.endpoint in ('main.sections', 'main.add_section', 'main.edit_section') }}">▧ Sections</a>
-        <a href="{{ url_for('main.students') }}" class="{{ 'active' if request.endpoint in ('main.students', 'main.add_student', 'main.edit_student') }}">◍ Students</a>
+        <a href="{{ url_for('main.students') }}" class="{{ 'active' if request.endpoint == 'main.students' }}">◍ Students</a>
         <a href="{{ url_for('main.settings') }}" class="{{ 'active' if request.endpoint == 'main.settings' }}">⚙ Settings</a>
       {% else %}
         <a href="{{ url_for('main.student_view') }}" class="{{ 'active' if request.endpoint == 'main.student_view' }}">▦ My Attendance</a>

@@ -18,7 +18,21 @@
         <td class="stu-name">{{ s.name }}</td>
         <td>{{ s.subject }}</td>
         <td>{{ (s.semester ~ ', ' ~ s.school_year) if s.school_year else '—' }}</td>
-        <td>{{ s.adviser.full_name if s.adviser else '—' }}</td>
+        <td>
+          {% if s.adviser_id == current_user.id %}
+            <span class="pill present">You</span>
+            <form method="POST" action="{{ url_for('main.release_section', section_id=s.id) }}" style="display:inline;">
+              <button type="submit" class="status-btn" style="margin-left:6px;">Release</button>
+            </form>
+          {% elif s.adviser %}
+            {{ s.adviser.full_name }}
+          {% else %}
+            <span style="color:var(--ink-soft);">Unclaimed</span>
+            <form method="POST" action="{{ url_for('main.claim_section', section_id=s.id) }}" style="display:inline;">
+              <button type="submit" class="status-btn sel-present" style="margin-left:6px;">Claim</button>
+            </form>
+          {% endif %}
+        </td>
         <td>
           <div class="status-group">
             <a class="status-btn" href="{{ url_for('main.edit_section', section_id=s.id) }}">Edit</a>

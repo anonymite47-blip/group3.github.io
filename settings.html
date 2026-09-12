@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Settings</h1>
+    <div class="sub">Manage your account and notification preferences</div>
+  </div>
+</div>
+
+<form method="POST" class="settings-grid">
+  <div class="panel settings-panel">
+    <h4>Account</h4>
+    <p class="desc">{{ current_user.full_name }} · {{ current_user.email }}</p>
+  </div>
+
+  <div class="panel settings-panel">
+    <h4>Notifications</h4>
+    <p class="desc">Choose how you and parents/guardians are notified of attendance status.</p>
+
+    <div class="row-between">
+      <div><div class="row-title">SMS Notifications</div><div class="row-sub">Text message when marked absent or late</div></div>
+      <label class="switch"><input type="checkbox" name="sms_notify" {{ 'checked' if current_user.sms_notify }}><span class="slider"></span></label>
+    </div>
+    <div class="row-between">
+      <div><div class="row-title">Email Notifications</div><div class="row-sub">Daily attendance summary via email</div></div>
+      <label class="switch"><input type="checkbox" name="email_notify" {{ 'checked' if current_user.email_notify }}><span class="slider"></span></label>
+    </div>
+    <div class="row-between">
+      <div><div class="row-title">In-App Alerts</div><div class="row-sub">Real-time alerts within the dashboard</div></div>
+      <label class="switch"><input type="checkbox" name="inapp_notify" {{ 'checked' if current_user.inapp_notify }}><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <button class="add-btn" type="submit" style="align-self:flex-start;">Save Changes</button>
+</form>
+{% endblock %}

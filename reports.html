@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Reports</h1>
+    <div class="sub">{{ (section.name ~ ' — ' ~ section.subject) if section else 'No section assigned yet' }}</div>
+  </div>
+  <div class="controls">
+    <form method="GET">
+      <select name="section_id" onchange="this.form.submit()">
+        {% for s in sections %}
+          <option value="{{ s.id }}" {{ 'selected' if section and s.id == section.id }}>{{ s.name }} — {{ s.subject }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+</div>
+
+<div class="rep-summary">
+  <div class="rep-card"><div class="num" style="color:var(--maroon);">{{ rate }}%</div><div class="label">Attendance rate</div></div>
+  <div class="rep-card"><div class="num" style="color:var(--present);">{{ present }}</div><div class="label">Present</div></div>
+  <div class="rep-card"><div class="num" style="color:var(--late);">{{ late }}</div><div class="label">Late</div></div>
+  <div class="rep-card"><div class="num" style="color:var(--absent);">{{ absent }}</div><div class="label">Absent</div></div>
+</div>
+
+<div class="panel">
+  <table>
+    <thead><tr><th>Date</th><th>Student</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for r in records %}
+      <tr>
+        <td>{{ r.date.strftime('%b %d, %Y') }}</td>
+        <td>{{ r.student.full_name }}</td>
+        <td><span class="pill {{ r.status }}">{{ r.status|capitalize }}</span></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="3" style="color:var(--ink-soft);">No records yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

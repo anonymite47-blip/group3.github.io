@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complete Your Profile — Santa Cruz Institute Attendance System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-body">
+<div class="login-frame">
+  <div class="login-side">
+    <div class="seal-lg">SCI</div>
+    <h2>Almost There</h2>
+    <p>Google confirmed your email — we just need a few more details to set up your student account.</p>
+    <div class="tag">Santa Cruz Institute (Marinduque), Inc.</div>
+  </div>
+  <div class="login-main">
+    <form class="login-form" method="POST">
+      <h3>Complete your profile</h3>
+      <p class="lead">Signed in as {{ name }} ({{ email }})</p>
+
+      {% if error %}
+        <div class="flash-error">{{ error }}</div>
+      {% endif %}
+
+      <div class="field">
+        <label for="student_no">Student No.</label>
+        <input type="text" id="student_no" name="student_no" value="{{ form.get('student_no', '') }}" placeholder="2023-00000" required autofocus>
+      </div>
+      <div class="field">
+        <label for="phone_number">Mobile Number</label>
+        <input type="text" id="phone_number" name="phone_number" value="{{ form.get('phone_number', '') }}" placeholder="09171234567" required>
+      </div>
+      <div class="field">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" style="width:100%; padding:11px 13px;">
+          <option value="">— Select —</option>
+          <option value="Male" {{ 'selected' if form.get('gender') == 'Male' }}>Male</option>
+          <option value="Female" {{ 'selected' if form.get('gender') == 'Female' }}>Female</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="year_level">Year Level</label>
+        <select id="year_level" name="year_level" style="width:100%; padding:11px 13px;">
+          <option value="">— Select —</option>
+          <option value="1st Year" {{ 'selected' if form.get('year_level') == '1st Year' }}>1st Year</option>
+          <option value="2nd Year" {{ 'selected' if form.get('year_level') == '2nd Year' }}>2nd Year</option>
+          <option value="3rd Year" {{ 'selected' if form.get('year_level') == '3rd Year' }}>3rd Year</option>
+          <option value="4th Year" {{ 'selected' if form.get('year_level') == '4th Year' }}>4th Year</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="section_id">Section</label>
+        <select id="section_id" name="section_id" style="width:100%; padding:11px 13px;">
+          <option value="">— Select later —</option>
+          {% for s in sections %}
+          <option value="{{ s.id }}" {{ 'selected' if form.get('section_id', '')|string == s.id|string }}>{{ s.name }} — {{ s.subject }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="login-btn" type="submit">Finish Sign Up</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

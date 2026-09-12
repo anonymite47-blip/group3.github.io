@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Attendance System{% endblock %} — Santa Cruz Institute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="seal">SCI</div>
+      <div class="brand-text">
+        <div class="name">Santa Cruz Institute</div>
+        <div class="dept">Computer Science Dept.</div>
+      </div>
+    </div>
+    <nav>
+      {% if current_user.role in ('faculty', 'admin') %}
+        <a href="{{ url_for('main.dashboard') }}" class="{{ 'active' if request.endpoint == 'main.dashboard' }}">▦ Dashboard</a>
+        <a href="{{ url_for('main.dashboard') }}" class="{{ 'active' if request.endpoint == 'main.mark_attendance' }}">▤ Attendance</a>
+        <a href="{{ url_for('main.reports') }}" class="{{ 'active' if request.endpoint == 'main.reports' }}">▥ Reports</a>
+        <a href="{{ url_for('main.sections') }}" class="{{ 'active' if request.endpoint in ('main.sections', 'main.add_section', 'main.edit_section') }}">▧ Sections</a>
+        <a href="{{ url_for('main.students') }}" class="{{ 'active' if request.endpoint in ('main.students', 'main.add_student', 'main.edit_student') }}">◍ Students</a>
+        <a href="{{ url_for('main.settings') }}" class="{{ 'active' if request.endpoint == 'main.settings' }}">⚙ Settings</a>
+      {% else %}
+        <a href="{{ url_for('main.student_view') }}" class="{{ 'active' if request.endpoint == 'main.student_view' }}">▦ My Attendance</a>
+        <a href="{{ url_for('main.settings') }}" class="{{ 'active' if request.endpoint == 'main.settings' }}">⚙ Settings</a>
+      {% endif %}
+    </nav>
+    <div class="sidebar-foot">
+      {{ 'Faculty / Admin Portal' if current_user.role in ('faculty', 'admin') else 'Student Portal' }}
+      <br><a href="{{ url_for('auth.logout') }}">Log out</a>
+    </div>
+  </aside>
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Edit Section{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Edit Section</h1>
+    <div class="sub">{{ section.name }} — {{ section.subject }}</div>
+  </div>
+</div>
+
+<div class="panel settings-panel" style="max-width:480px;">
+  {% if error %}<div class="flash-error">{{ error }}</div>{% endif %}
+  <form method="POST">
+    <div class="field">
+      <label for="name">Section Name</label>
+      <input type="text" id="name" name="name"
+        value="{{ (form.get('name') if form else section.name) }}" required>
+    </div>
+    <div class="field">
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject"
+        value="{{ (form.get('subject') if form else section.subject) }}" required>
+    </div>
+    <div class="field">
+      <label for="school_year">School Year</label>
+      <input type="text" id="school_year" name="school_year"
+        value="{{ (form.get('school_year') if form else section.school_year) or '' }}" placeholder="2026-2027">
+    </div>
+    <div class="field">
+      <label for="semester">Semester</label>
+      {% set current_sem = (form.get('semester') if form else section.semester) or '' %}
+      <select id="semester" name="semester" style="width:100%; padding:11px 13px;">
+        <option value="">— Select —</option>
+        <option value="1st Semester" {{ 'selected' if current_sem == '1st Semester' }}>1st Semester</option>
+        <option value="2nd Semester" {{ 'selected' if current_sem == '2nd Semester' }}>2nd Semester</option>
+        <option value="Summer" {{ 'selected' if current_sem == 'Summer' }}>Summer</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="adviser_id">Adviser</label>
+      {% set current_adviser = (form.get('adviser_id') if form else section.adviser_id)|string %}
+      <select id="adviser_id" name="adviser_id" style="width:100%; padding:11px 13px;">
+        <option value="">— Unassigned —</option>
+        {% for a in advisers %}
+        <option value="{{ a.id }}" {{ 'selected' if current_adviser == a.id|string }}>{{ a.full_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button class="add-btn" type="submit">Save Changes</button>
+    <a href="{{ url_for('main.sections') }}" style="margin-left:14px; font-size:13px; color:var(--ink-soft);">Cancel</a>
+  </form>
+</div>
+{% endblock %}

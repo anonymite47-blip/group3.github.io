@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Sections{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Sections</h1>
+    <div class="sub">Computer Science Department · {{ sections|length }} section(s)</div>
+  </div>
+  <div class="who"><a href="{{ url_for('main.add_section') }}" class="add-btn" style="text-decoration:none; display:inline-block;">+ Add Section</a></div>
+</div>
+
+<div class="panel">
+  <table>
+    <thead><tr><th>Section</th><th>Subject</th><th>Term</th><th>Adviser</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for s in sections %}
+      <tr>
+        <td class="stu-name">{{ s.name }}</td>
+        <td>{{ s.subject }}</td>
+        <td>{{ (s.semester ~ ', ' ~ s.school_year) if s.school_year else '—' }}</td>
+        <td>{{ s.adviser.full_name if s.adviser else '—' }}</td>
+        <td>
+          <div class="status-group">
+            <a class="status-btn" href="{{ url_for('main.edit_section', section_id=s.id) }}">Edit</a>
+            <form method="POST" action="{{ url_for('main.delete_section', section_id=s.id) }}"
+                  onsubmit="return confirm('Delete {{ s.name }}? Students currently in it will be unassigned.');">
+              <button type="submit" class="status-btn sel-absent">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" style="color:var(--ink-soft);">No sections yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
